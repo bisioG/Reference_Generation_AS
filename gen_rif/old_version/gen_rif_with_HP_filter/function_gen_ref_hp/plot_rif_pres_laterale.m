@@ -128,34 +128,8 @@
     end
 
    grid on
-    
-%% position NONLin (non filtrate)
-
-figure
-plot(tt,pos_nonLin)
-if strcmp(param_name,'Sinusoidal')==1
-        xlim([0 3*1/fr])
-else
-        xlim([0 Tf])
-end
-hold on
-plot(tt,vel_nonLin)
-lgd = legend('body position NONLin','body velocity NONLin');
-lgd.FontSize= legend_size;
-xlabel('time [s]')
-ylabel('[m]or [m/s]')
-
-    if strcmp(param_name,'Sinusoidal')==1
-    title(['Nonlinear positions and velocity, test:', param_name,' fr=',num2str(fr),'[Hz] A=',num2str(Amp),'[m/s^2]'],'FontSize',title_size)
-    elseif strcmp(param_name,'Step')==1
-    title(['Nonlinear positions and velocity, test:', param_name,' A=',num2str(Amp),'[m/s^2]'],'FontSize',title_size)
-    else
-    title(['Nonlinear positions and velocity, test:', param_name],'FontSize',title_size)    
-    end
-    
-grid on
-    
-%% Linear contributors (non filtrate)
+   
+   %% Linear contributors (non filtrate)
 
     figure
     plot(tt,m*ay,'g','Linewidth',1)
@@ -186,6 +160,34 @@ grid on
     end
     
     grid on
+    
+%% position and velocity NONLin (non filtrate)
+
+figure
+plot(tt,pos_nonLin)
+if strcmp(param_name,'Sinusoidal')==1
+        xlim([0 3*1/fr])
+else
+        xlim([0 Tf])
+end
+hold on
+plot(tt,vel_nonLin)
+lgd = legend('body position NONLin','body velocity NONLin');
+lgd.FontSize= legend_size;
+xlabel('time [s]')
+ylabel('[m]or [m/s]')
+
+    if strcmp(param_name,'Sinusoidal')==1
+    title(['Nonlinear positions and velocity, test:', param_name,' fr=',num2str(fr),'[Hz] A=',num2str(Amp),'[m/s^2]'],'FontSize',title_size)
+    elseif strcmp(param_name,'Step')==1
+    title(['Nonlinear positions and velocity, test:', param_name,' A=',num2str(Amp),'[m/s^2]'],'FontSize',title_size)
+    else
+    title(['Nonlinear positions and velocity, test:', param_name],'FontSize',title_size)    
+    end
+    
+grid on
+    
+
 
 %% Linear position and velocity (non filtrate)
 
@@ -230,7 +232,7 @@ plot(tt,pos_nonLin_WOfriction,'g','Linewidth',1)
 lgd = legend('posizione corpo Lin','posizione corpo nonLin', 'posizione corpo nonLin WOfriction' );
 lgd.FontSize= legend_size;
 xlabel('time [s]')
-ylabel('[m]')
+ylabel('[m] or [m/s]')
 
     if strcmp(param_name,'Sinusoidal')==1
     title(['Linear vs Non-Linear positions, test:', param_name,' fr=',num2str(fr),'[Hz] A=',num2str(Amp),'[m/s^2]'],'FontSize',title_size)

@@ -4,8 +4,8 @@ legend_size=12; %LEGEND SIZE SETTINGS
 title_size=19;  %TITLE SIZE SETTINGS
 
 % parametri di partenza
-k1=1200000;
-k2=1000;
+% k1=1200000;
+% k2=1000;
 
 
 x=[-0.10:0.001:0.10];
@@ -30,20 +30,33 @@ x2= -x1;
 y1=x1*m1+q;
 y2=x2*m2+q;
 
-%% plot
+%% plot detail
+
+figure
+plot(x,K,'g','Linewidth',1)
+title('Spring function, k(dy(t))')
+grid on
+ylim([0 2500]);
+xlabel('dy [m]');
+ylabel('k(dy) [N/m]');
+
+%% plot linearization
 figure
 plot(x,K,'m','Linewidth',1)
 ylim([0 k_hlim+1000])
 hold on
-plot(x,6000*ones(1,length(x)),'b','Linewidth',1)
-plot(x,k_lin*ones(1,length(x)),'g','Linewidth',1)
-% plot(x1,y1,'y','Linewidth',1)
-% plot(x2,y2,'y','Linewidth',1)
+grid on
+ plot(x,6000*ones(1,length(x)),'b','Linewidth',1)
+ plot(x,k_lin*ones(1,length(x)),'g','Linewidth',1)
 
- line([x_hlim x_hlim], [-2000 14000],'Color','red','LineStyle','--','Linewidth',1)
- line([-x_hlim -x_hlim], [-2000 14000],'Color','red','LineStyle','--','Linewidth',1)
+
+line([x_hlim x_hlim], [-2000 14000],'Color','red','LineStyle','--','Linewidth',1)
+line([-x_hlim -x_hlim], [-2000 14000],'Color','red','LineStyle','--','Linewidth',1)
  line([-0.1 0.1], [k_hlim k_hlim],'Color','black','LineStyle','--','Linewidth',1)
  line([-0.1 0.1], [k_llim k_llim],'Color','black','LineStyle','--','Linewidth',1)
-lgd = legend('k(x)','k = 6000', ['k'' = ',num2str(k_lin)]);
+
+lgd = legend('k(dy(t))','k = 6000', ['k'' = ',num2str(k_lin)]);
 lgd.FontSize = legend_size;
-title(['Spring function,Input signal fr=',num2str(fr),'[Hz] A=',num2str(Amp),'[m/s^2]'],'FontSize',title_size);
+title('Spring function k(dy(t))','FontSize',title_size);
+xlabel('dy [m]');
+ylabel('k(dy) [N/m]');
