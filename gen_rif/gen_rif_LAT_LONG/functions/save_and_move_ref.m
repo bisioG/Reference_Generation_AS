@@ -4,11 +4,11 @@
 if strcmp(param_name,'AS')
     cd([save_local,'\data\',test_name,'\rif_pressure_saved']);
     label = test_name;
-    save('rif_pressione','rif_pressione','label');
+    save('rif_pressione','rif_pressione_hp','rif_pressione','rif_type');
     cd('..');
 else
     cd([save_local,'\data\','\rif_pressure_saved']);
-    save('rif_pressione','rif_pressione','label');
+    save('rif_pressione','rif_pressione_hp','rif_pressione','rif_type','sim_type');
     cd('..');
 end
 
@@ -106,7 +106,7 @@ cd(path_main_matmpc);
 
 clc;
 display('                           ');
-display('Pressure Reference created.');
+display(['Pressure Reference created: ', rif_type]);
 display('                           ');
 display('On-line params file created.');
 display('                           ');

@@ -36,7 +36,22 @@ sim_type = 'Calabogie track';  %setting the type of reference to generate
 
 scale_f = 0.5; %scale factor to simulate the on-line params (accX,accY,roll,pitch) of the platform
 
-%% *****
+%% ************** SET THE REFERENCE TYPE
+
+rif_type = 'Non linear lateral HP';
+
+% TYPE:
+
+% Non linear lateral
+% Non linear lateral HP
+% Linear lateral
+% Linear lateral HP
+% Non linear lateral WOfriction
+% Non linear lateral WOfriction HP
+% Linear longitudinal
+% Linear longitudinal HP
+
+%% ***** start make the ref
 
 switch sim_type
     case 'Sinusoidal'
@@ -47,7 +62,7 @@ switch sim_type
         ay = Amp*sin(2*pi*fr*tt); %sin
         ax = ay;
 
-        label = 'sinusoidal_ref'
+%         label = 'sinusoidal_ref'
         
     case 'Step'
         %% parametri ax,ay GRADINO ************************************************************
@@ -56,7 +71,7 @@ switch sim_type
         ay = [zeros(1,100) Amp*ones(1,(length(tt)-100))]; %step
         ax = ay;
 
-        label = 'step_response'
+%         label = 'step_response'
 
     case 'Calabogie track'
         %% parametri ax,ay CALABOGIE *********************************************************
@@ -67,7 +82,7 @@ switch sim_type
         ax = IN1_XY(1:N_sim)*g;
         ay = IN1_YX(1:N_sim)*g; % trasformo in m/s^2
 
-        label = 'calabogie_track'
+%         label = 'calabogie_track'
 
     case 'Chicane'
         %% parametri ax,ay CHICANE **********************************************************
@@ -78,29 +93,12 @@ switch sim_type
         ay = -IN1_YX(1:N_sim)*g; % trasformo in m/s^2
         ax = IN1_XY(1:N_sim)*g;
 
-        label = 'chicane_segment'
+%         label = 'chicane_segment'
 end
 
 %% create the references
 mainfolder = pwd;
+
 run create_matmpc_reference_files.m
-
-%% ************** SCELTA DEL RIFERIMENTO DA USARE
-
-rif_pressione= ypf_NL; % il riferimento scelto (rif_pressione, variabile utilizzata in matmpc)
-
-% tipi:
-% 
-% HP FILTERED
-% ypf_NL
-% ypf_NL_WOfriction
-% ypf_L
-% ypf_L_long
-
-% yp_NL
-% yp_NL_WOfriction
-% yp_L
-% yp_L_long
-
-
+run set_ref_type.m
 run save_and_move_ref.m
