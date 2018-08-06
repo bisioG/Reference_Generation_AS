@@ -2,12 +2,11 @@
 
 %% ************** CREAZIONE DEL FILE DI RIFERIMENTO DI PRESSIONE PER MATMPC
 if strcmp(param_name,'AS')
-    cd([save_local,'\data\',test_name,'\rif_pressure_saved']);
-    label = test_name;
-    save('rif_pressione','rif_pressione_hp','rif_pressione','rif_type');
+    cd([save_local,'\data\',sim_type,'\rif_pressure_saved']);
+    save('rif_pressione','rif_pressione_hp','rif_pressione','rif_type','sim_type');
     cd('..');
 else
-    cd([save_local,'\data\','\rif_pressure_saved']);
+    cd([save_local,'\data\rif_pressure_saved']);
     save('rif_pressione','rif_pressione_hp','rif_pressione','rif_type','sim_type');
     cd('..');
 end
@@ -41,7 +40,7 @@ if strcmp(param_name,'AS')
             rif_roll = rif_roll(1,1:N_end);
         end
 
-        save([pwd,'\rif_params_saved\rif_params'],'rif_accX','rif_accY','rif_roll');
+        save([pwd,'\rif_params_saved\rif_params'],'rif_accX','rif_accY','rif_roll','type');
     
     end
 
@@ -70,7 +69,7 @@ if strcmp(param_name,'AS')
             rif_pitch = rif_pitch(1,1:N_end);
         end
 
-        save([pwd,'\rif_params_saved\rif_params'],'rif_accX','rif_accY','rif_pitch');
+        save([pwd,'\rif_params_saved\rif_params'],'rif_accX','rif_accY','rif_pitch','type');
     
     end
 else
@@ -80,7 +79,7 @@ else
         rif_accX = ax*scale_f; 
         rif_accY = ay*scale_f;
 
-        save([pwd,'\rif_params_saved\rif_params'],'rif_accX','rif_accY','rif_roll');
+        save([pwd,'\rif_params_saved\rif_params'],'rif_accX','rif_accY','rif_roll','type');
     end
     if type ==2 %longitudinal
         rif_pitch = zeros(length(ax));
@@ -88,7 +87,7 @@ else
         rif_accX = ax*scale_f; 
         rif_accY = ay*scale_f;
 
-        save([pwd,'\rif_params_saved\rif_params'],'rif_accX','rif_accY','rif_pitch');
+        save([pwd,'\rif_params_saved\rif_params'],'rif_accX','rif_accY','rif_pitch','type');
     end
 end
     
@@ -107,6 +106,8 @@ cd(path_main_matmpc);
 clc;
 display('                           ');
 display(['Pressure Reference created: ', rif_type]);
+display('                           ');
+display(['Simulation type: ', sim_type]);
 display('                           ');
 display('On-line params file created.');
 display('                           ');

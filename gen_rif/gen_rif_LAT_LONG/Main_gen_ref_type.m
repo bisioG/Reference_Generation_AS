@@ -88,10 +88,16 @@ switch sim_type
         %% parametri ax,ay CHICANE **********************************************************
         param_name = 'Chicane';
         g =9.81;
+        
         load ('acc_data\ay2.mat')
         load ('acc_data\ax2.mat')
-        ay = -IN1_YX(1:N_sim)*g; % trasformo in m/s^2
-        ax = IN1_XY(1:N_sim)*g;
+        ay = -IN1_YX(1:length(IN1_YX))'.*g; % trasformo in m/s^2
+        ax = IN1_XY(1:length(IN1_YX))'.*g;
+        N_sim = length(ax);
+        
+        N_zeros = (Tf/Ts)-N_sim;
+        ax = [ax,zeros(1,N_zeros)];
+        ay = [ay,zeros(1,N_zeros)];
 
 %         label = 'chicane_segment'
 end
@@ -101,4 +107,5 @@ mainfolder = pwd;
 
 run create_matmpc_reference_files.m
 run set_ref_type.m
+run plot_all.m
 run save_and_move_ref.m
