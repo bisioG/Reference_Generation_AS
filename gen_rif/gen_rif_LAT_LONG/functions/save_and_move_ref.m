@@ -13,13 +13,23 @@ end
 
 %% *************** CREAZIONE DEI PARAMETRI DI ACCX,ACCY,ROLL DA UTILIZZARE NEL MODELLO MPC
     
-if strcmp(param_name,'AS')
+if strcmp(param_name,'AS') % non scala le accelerazioni di ingresso ma usa quelle campionate 
     
     if type == 1 % caso laterale (roll)
     
-        rif_accX = acc_lin(:,1)';
-        rif_accY = acc_lin(:,2)';
-        rif_roll = pos_ang(:,1)';
+        rif_accX = (resample(acc_lin(:,1),4,5))';
+        rif_accY = (resample(acc_lin(:,2),4,5))';
+        rif_roll = (resample(pos_ang(:,1),4,5))';
+        
+        if platform_action == 0
+            % per simulare senza contributi della piattaforma
+            rif_accX = [];
+            rif_accY = []
+            rif_roll = [];
+            N_sim=0;
+        end
+        
+        
     
         % to have 25s of simulation
 
@@ -46,9 +56,22 @@ if strcmp(param_name,'AS')
 
     if type ==2 %caso longitudinale (pitch)
 
-        rif_accX = acc_lin(:,1)';
-        rif_accY = acc_lin(:,2)';
-        rif_pitch = pos_ang(:,2)';
+        
+        rif_accX = (resample(acc_lin(:,1),4,5))';
+        rif_accY = (resample(acc_lin(:,2),4,5))';
+        rif_roll = (resample(pos_ang(:,1),4,5))';
+        
+        rif_accX = (resample(acc_lin(:,1),4,5))';
+        rif_accY = (resample(acc_lin(:,2),4,5))';
+        rif_pitch = (resample(pos_ang(:,2),4,5))';
+        
+        if platform_action == 0
+            % per simulare senza contributi della piattaforma
+            rif_accX = [];
+            rif_accY = []
+            rif_roll = [];
+            N_sim=0;
+        end
     
         % to have 25s of simulation
 

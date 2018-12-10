@@ -4,16 +4,15 @@ legend_size=12; %LEGEND SIZE SETTINGS
 title_size=19;  %TITLE SIZE SETTINGS
 
 % parametri di partenza
-% k1=1200000;
-% k2=1000;
-
+k1 = 10*10^6; %12*10^5 %12*10^5;     %parametri forza elastica k1*(*dy)^p+k2  
+k2 =100;
 
 x=[-0.10:0.001:0.10];
 for i=1:length(x)
 K(i) = k1*(x(i)).^2+k2;
 end
 
-% calcolo del k medio e limiti di posizione del corpo
+%% calcolo del k medio e limiti di posizione del corpo
 x_hlim = max(abs(pos_nonLin));
 k_hlim = k1*x_hlim.^2+k2;
 x_llim = min(abs(pos_nonLin));
@@ -21,7 +20,7 @@ k_llim = k1*x_llim.^2+k2;
 
 k_lin = (k_hlim-k_llim)/2+k_llim;
 
-%calcolo rette
+%% calcolo rette
 m1 = (k_hlim-k_llim)/(x_hlim-x_llim);
 m2 = -m1;
 q=k2;
@@ -33,12 +32,13 @@ y2=x2*m2+q;
 %% plot detail
 
 figure
-plot(x,K,'g','Linewidth',1)
-title('Spring function, k(dy(t))')
+plot(x,K,'g','Linewidth',2)
+%title('Spring function, k(dy(t))')
 grid on
-ylim([0 2500]);
-xlabel('dy [m]');
-ylabel('k(dy) [N/m]');
+ylim([0 2000])
+xlim([-0.02 0.02]);
+xlabel('[m]');
+ylabel('[N/m]');
 
 %% plot linearization
 figure
@@ -46,8 +46,7 @@ plot(x,K,'m','Linewidth',1)
 ylim([0 k_hlim+1000])
 hold on
 grid on
- plot(x,6000*ones(1,length(x)),'b','Linewidth',1)
- plot(x,k_lin*ones(1,length(x)),'g','Linewidth',1)
+plot(x,k_lin*ones(1,length(x)),'g','Linewidth',1)
 
 
 line([x_hlim x_hlim], [-2000 14000],'Color','red','LineStyle','--','Linewidth',1)

@@ -3,7 +3,7 @@
 
 clear all;
 clc;
-close all;
+% close all;
 
 %% ***** SETTINGS PATHS
 
@@ -34,11 +34,11 @@ sim_type = 'Calabogie track';  %setting the type of reference to generate
 % Step
 % Chicane
 
-scale_f = 0.5; %scale factor to simulate the on-line params (accX,accY,roll,pitch) of the platform
+scale_f = 0; %scale factor to simulate the on-line params (accX,accY,roll,pitch) of the platform 
 
 %% ************** SET THE REFERENCE TYPE
 
-rif_type = 'Non linear lateral HP';
+rif_type = 'Non linear lateral WOfriction';
 
 % TYPE:
 
@@ -67,7 +67,7 @@ switch sim_type
     case 'Step'
         %% parametri ax,ay GRADINO ************************************************************
         param_name = 'Step';
-        Amp = 10;  %amplitude
+        Amp = 5;  %amplitude
         ay = [zeros(1,100) Amp*ones(1,(length(tt)-100))]; %step
         ax = ay;
 
@@ -79,8 +79,8 @@ switch sim_type
         g=9.81;
         load ('acc_data\ay.mat')
         load ('acc_data\ax.mat')
-        ax = IN1_XY(1:N_sim)*g;
-        ay = IN1_YX(1:N_sim)*g; % trasformo in m/s^2
+        ax = IN1_XY(1:N_sim).*g;
+        ay = IN1_YX(1:N_sim).*g; % trasformo in m/s^2
 
 %         label = 'calabogie_track'
 
@@ -107,5 +107,6 @@ mainfolder = pwd;
 
 run create_matmpc_reference_files.m
 run set_ref_type.m
-run plot_all.m
 run save_and_move_ref.m
+%run plot_all.m
+

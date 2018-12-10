@@ -1,4 +1,4 @@
-function [F_pres_Lin,damping_Lin,ay_corpo_Lin,pos_Lin,vel_Lin,Output_L,ypf_L,yp_L] = make_ref_Lin_HP(Ts,Tf,ay,m,k2,c2,tau_hp,A,y)
+function [F_pres_Lin,damping_Lin,ay_corpo_Lin,pos_Lin,vel_Lin,Output_L,ypf_L,yp_L] = make_ref_Lin_HP(Ts,Tf,ay,m,k2,c2,tau_hp,A,y,G_hp)
 
 % Calcolo uscite modello pressorio Lin
 for i = 1:Tf/Ts
@@ -11,7 +11,7 @@ for i = 1:Tf/Ts
     vel_Lin(i)=y(i,2);
     
     Output_L(i) = F_pres_Lin(i)+damping_Lin(i);  %forza premente
-    ypf_L(i) = (-1/tau_hp)*y(i,3)+ Output_L(i)./A; %pressione filtrata
+    ypf_L(i) = (-1/tau_hp)*G_hp*y(i,3)+ G_hp*Output_L(i)./A; %pressione filtrata
     
 end
 

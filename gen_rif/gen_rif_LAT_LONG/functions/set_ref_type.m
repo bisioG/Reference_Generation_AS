@@ -33,7 +33,7 @@ if type ==1
 elseif type==2
     
     if strcmp(rif_type,'Linear longitudinal')
-        rif_pressione = yp_L;
+        rif_pressione = yp_L_long;
         rif_pressione_hp = 0;
     
     elseif strcmp(rif_type,'Linear longitudinal HP')

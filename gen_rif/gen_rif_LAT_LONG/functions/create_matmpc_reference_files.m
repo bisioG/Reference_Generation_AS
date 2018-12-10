@@ -19,16 +19,15 @@ cd (path_examples);
 run Pressure_model_params_nonLin
 cd(mainfolder);
 
-A = 0.016; %area di contatto
 tspan = tt;
 
 y0 = [0;0;0;0]; % cond iniziali
 
-ode_function = @(t,y) odefun_nonlin_hpfilter(t,y,tspan,ay,m,k1,k2,c1,c2,sigma_0,vs,alpha,MM,ax,g,Fs,Fc,tau_hp,A);
+ode_function = @(t,y) odefun_nonlin_hpfilter(t,y,tspan,ay,m,k1,k2,c1,c2,sigma_0,vs,alpha,MM,ax,g,Fs,Fc,tau_hp,A,p,G_hp_ref);
 [t,y] = ode45(ode_function, tspan, y0); %  (funzione da integrare, intervallo di integrazione, cond iniziali)
 
-%calcolo le uscite al modello pressorio NON_LINEARE
-[ F_el_nonLin,F_att,damping_nonLin,ay_corpo_nonLin,pos_nonLin,vel_nonLin,zm,elastic_effect,damping_effect,Output_NL,ypf_NL,yp_NL]= make_ref_nonLin_HP(Ts,Tf,ay,m,k1,k2,c1,c2,sigma_0,tau_hp,A,y);
+% calcolo le uscite al modello pressorio NON_LINEARE
+[ F_el_nonLin,F_att,damping_nonLin,ay_corpo_nonLin,pos_nonLin,vel_nonLin,zm,elastic_effect,damping_effect,Output_NL,ypf_NL,yp_NL,c_NL,k_NL]= make_ref_nonLin_HP(Ts,Tf,ay,m,k1,k2,c1,c2,sigma_0,tau_hp,A,y,p,G_hp_ref);
 
 
 %% ODE nonLin_WOfriction
@@ -37,11 +36,11 @@ ode_function = @(t,y) odefun_nonlin_hpfilter(t,y,tspan,ay,m,k1,k2,c1,c2,sigma_0,
 
 y0 = [0;0;0]; % cond iniziali
 
-ode_function = @(t,y) odefun_nonlin_WOfriction_hpfilter(t,y,tspan,ay,m,k1,k2,c1,c2,tau_hp,A);
+ode_function = @(t,y) odefun_nonlin_WOfriction_hpfilter(t,y,tspan,ay,m,k1,k2,c1,c2,tau_hp,A,p,G_hp_ref);
 [t,y] = ode45(ode_function, tspan, y0); %  (funzione da integrare, intervallo di integrazione, cond iniziali)
 
 %calcolo le uscite al modello pressorio WOfriction
-[F_el_nonLin_WOfriction,damping_nonLin_WOfriction,ay_corpo_nonLin_WOfriction,pos_nonLin_WOfriction,vel_nonLin_WOfriction,Output_NL_WOfriction,ypf_NL_WOfriction,yp_NL_WOfriction ]  = make_ref_nonLin_WOfriction_HP(Ts,Tf,ay,m,k1,k2,c1,c2,tau_hp,A,y);
+[F_el_nonLin_WOfriction,damping_nonLin_WOfriction,ay_corpo_nonLin_WOfriction,pos_nonLin_WOfriction,vel_nonLin_WOfriction,Output_NL_WOfriction,ypf_NL_WOfriction,yp_NL_WOfriction ]  = make_ref_nonLin_WOfriction_HP(Ts,Tf,ay,m,k1,k2,c1,c2,tau_hp,A,y,p,G_hp_ref);
 
 
 %% ODE Lin
@@ -56,11 +55,11 @@ cd(current_path);
 
 y0 = [0;0;0]; % cond iniziali
 
-ode_function = @(t,y) odefun_lin_hpfilter(t,y,tspan,ay,m,k2,c2,tau_hp,A);
+ode_function = @(t,y) odefun_lin_hpfilter(t,y,tspan,ay,m,k2,c2,tau_hp,A,G_hp_ref);
 [t,y] = ode45(ode_function, tspan, y0); %  (funzione da integrare, intervallo di integrazione, cond iniziali)
 
 %calcolo le uscite al modello pressorio LINEARE
-[F_pres_Lin,damping_Lin,ay_corpo_Lin,pos_Lin,vel_Lin,Output_L,ypf_L,yp_L] = make_ref_Lin_HP(Ts,Tf,ay,m,k2,c2,tau_hp,A,y); 
+[F_pres_Lin,damping_Lin,ay_corpo_Lin,pos_Lin,vel_Lin,Output_L,ypf_L,yp_L] = make_ref_Lin_HP(Ts,Tf,ay,m,k2,c2,tau_hp,A,y,G_hp_ref); 
 
 %stace state Linear model
 
@@ -84,12 +83,12 @@ cd(current_path);
 tspan = tt;
 y0 = [0;0;0]; % cond iniziali
 
-ode_function = @(t,y) odefun_lin_hpfilter_Long(t,y,tspan,ax,m,k2,c2,tau_hp,A);
+ode_function = @(t,y) odefun_lin_hpfilter_Long(t,y,tspan,ax,m,k2,c2,tau_hp,A,G_hp_ref);
 [t,y] = ode45(ode_function, tspan, y0); %  (funzione da integrare, intervallo di integrazione, cond iniziali)
 
 
 %calcolo le uscite al modello pressorio LINEARE
-[F_pres_Lin,damping_Lin,ax_corpo_Lin,pos_Lin,vel_Lin,Output_L,ypf_L_long,yp_L_long] = make_ref_Lin_HP_Long(Ts,Tf,ax,m,k2,c2,tau_hp,A,y); 
+[F_pres_Lin,damping_Lin,ax_corpo_Lin,pos_Lin,vel_Lin,Output_L,ypf_L_long,yp_L_long] = make_ref_Lin_HP_Long(Ts,Tf,ax,m,k2,c2,tau_hp,A,y,G_hp_ref); 
 
 end
 
